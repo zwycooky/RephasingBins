@@ -21,7 +21,7 @@ $genome = abs_path($genome);
 $bwa_index = abs_path($bwa_index);
 
 ## main scripts ##
-my $scripts = "/public/home/hjqiu/people/zwy/scripts/bwa-tea.pl";
+my $scripts = "bwa-tea.pl";
 
 ## --------------------------- ##
 chomp(my @input = glob "$dir/*.gz");
