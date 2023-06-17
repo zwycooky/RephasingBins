@@ -5,7 +5,7 @@ use strict;
 mkdir "pbs_co_scripts";
 chdir "pbs_co_scripts";
 
-my $dir = "/public/home/hjqiu/people/zwy/Fuding_population/04phasing_FD/03phasing";
+chomp(my $dir = `pwd`);
 
 my @sca = glob "$dir/hapOut/*hap.txt";
 foreach (@sca) {
@@ -16,7 +16,7 @@ my $pbs = "#PBS -N $prefix
 module load R/4.0.0
 cd $dir/pbs_co_scripts
 
-Rscript $dir/scripts/Hapi_co.R $_ $dir/hapOut/$prefix.co.txt
+Rscript $dir/hapi_scripts/Hapi_co.R $_ $dir/hapOut/$prefix.co.txt
 
 ";
     open PBS,'>',"$prefix.co.pbs";
