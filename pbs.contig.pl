@@ -2,8 +2,8 @@
 
 use strict;
 
-my $phasing_script = "/public/home/hjqiu/people/zwy/Fuding_population/04phasing_FD/03phasing/scripts/contig_Hapi_phasing.pl";
-my $dir = "/public/home/hjqiu/people/zwy/Fuding_population/04phasing_FD/03phasing";
+chomp(my $dir = `pwd`);
+my $phasing_script = "$dir/hapi_scripts/contig_Hapi_phasing.pl";
 
 my $Job_num = @ARGV[0];
 my $Usage = "\n\t$0 <Job number>
@@ -35,7 +35,7 @@ sub phasing_pbs {
 	my $pbs = "#PBS -N $job_id
 #PBS -l nodes=1:ppn=5
 
-module load R/4.0.0
+#module load R/4.0.0
 
 cd $dir
 perl $phasing_script $vcf_list
