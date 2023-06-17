@@ -217,7 +217,7 @@ if (length(filter) > 0) {
     draftHap <- hapiPhase(imputedFrame)
 } 
 
-hapiBlockMPR2_script <- paste(pwddir,"/scripts/hapiBlockMPR2.0.R",sep="")
+hapiBlockMPR2_script <- paste(pwddir,"/hapi_scripts/hapiBlockMPR2.0.R",sep="")
 source(hapiBlockMPR2_script)
 
 ### select a subset of high-quality markers
@@ -240,7 +240,7 @@ if (length(remove_NA_col > 0)) {
 	gmt_filter <- gmtDa
 }
 
-hapiAssemble2_script <- paste(pwddir,"/scripts/hapiAssemble2.0.R",sep="")
+hapiAssemble2_script <- paste(pwddir,"/hapi_scripts/hapiAssemble2.0.R",sep="")
 source(hapiAssemble2_script)
 consensusHap <- hapiAssemble(draftHap = finalDraft, gmt = gmt_filter)
 
