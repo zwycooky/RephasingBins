@@ -4,6 +4,7 @@ args=commandArgs(T)
 
 input <- args[1]
 output <- args[2]
+pwddir <- args[3]
 #input <- "ptg000025l.vcf"
 #output <- "res"
 
@@ -216,7 +217,8 @@ if (length(filter) > 0) {
     draftHap <- hapiPhase(imputedFrame)
 } 
 
-source("/public/home/hjqiu/people/zwy/single_cell_2021/BGI_version/01phasing/03phasing/scripts/hapiBlockMPR2.0.R")
+hapiBlockMPR2_script <- paste(pwddir,"/scripts/hapiBlockMPR2.0.R",sep="")
+source(hapiBlockMPR2_script)
 
 ### select a subset of high-quality markers
 gmtFrame <- hapiFrameSelection(gmt = gmtDa, n = 10) ###
@@ -238,7 +240,8 @@ if (length(remove_NA_col > 0)) {
 	gmt_filter <- gmtDa
 }
 
-source("/public/home/hjqiu/people/zwy/single_cell_2021/BGI_version/01phasing/03phasing/scripts/hapiAssemble2.0.R")
+hapiAssemble2_script <- paste(pwddir,"/scripts/hapiAssemble2.0.R",sep="")
+source(hapiAssemble2_script)
 consensusHap <- hapiAssemble(draftHap = finalDraft, gmt = gmt_filter)
 
 outRdata <- paste(output,"RData",sep=".")
