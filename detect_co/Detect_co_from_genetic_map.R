@@ -1,7 +1,10 @@
 options(stringsAsFactors=F)
 library(HMM)
 
-binmap <- read.table("merged_binMarkers.re-phasing.co8.missing30.txt",header=T)
+Args <- commandArgs(T)
+binmap_file <- Args[1]
+
+binmap <- read.table(binmap_file,header=T)
 binmap[binmap == "U"] <- NA
 
 gmtmiss <- 1:ncol(binmap) 
