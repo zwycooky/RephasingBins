@@ -1,6 +1,11 @@
 options(stringsAsFactors=F)
-co <- read.table("co_final.txt",header=F)
-binmap <- read.table("Re_anchored_genome.txt",header=F)
+
+Args <- commandArgs(T)
+co_file <- Args[1]
+reanchor_file <- Args[2]
+
+co <- read.table(co_file,header=F)
+binmap <- read.table(reanchor_file,header=F)
 rownames(binmap) <- binmap[,2] 
 
 co <- cbind(co, binmap[co[,3],4], binmap[co[,4],3])
