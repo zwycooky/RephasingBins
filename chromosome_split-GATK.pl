@@ -102,6 +102,9 @@ module load GATK/4.3.0.0
 
 cd $tmp_output/$id
 
+export JAVA_TOOL_OPTIONS=-Xmx5g
+export MALLOC_ARENA_MAX=2 
+
 $gatk HaplotypeCaller -R $genome $bam_com --verbosity ERROR -L $id:$s-$e -O $id.$postfix.raw.vcf
 ";
 	}else{
