@@ -98,7 +98,7 @@ sub lsf {
 	$lsf = "#PBS -N GATK.$id.$postfix
 #PBS -l nodes=1:ppn=1
 
-module load GATK/4.3.0.0
+module load GATK/4.4.0.0
 
 cd $tmp_output/$id
 
