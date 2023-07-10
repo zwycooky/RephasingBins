@@ -33,7 +33,10 @@ foreach (@raw_vcf) {
 	my $pbs = "#PBS -N patch
 #PBS -l nodes=1:ppn=1
 
-module load GATK/4.3.0.0
+module load GATK/4.4.0.0
+export JAVA_TOOL_OPTIONS=-Xmx5g
+export MALLOC_ARENA_MAX=2 
+
 cd $pbs_dir
 
 $gatk_filter $vcf_file $out_name
