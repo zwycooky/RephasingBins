@@ -4,7 +4,7 @@ library(HMM)
 Args <- commandArgs(T)
 binmap_file <- Args[1]
 
-binmap <- read.table(binmap_file,header=T)
+binmap <- read.table(binmap_file, header=T)
 binmap[binmap == "U"] <- NA
 
 gmtmiss <- 1:ncol(binmap) 
@@ -16,7 +16,7 @@ names(gmtmiss) <- colnames(binmap)
 binmap <- binmap[,gmtmiss <= 0.1]
 
 dat <- list()
-file_names <- list.files(pattern=".txt")
+file_names <- list.files(pattern="lg")
 for(i in 1:length(file_names)) {
 	name <- gsub(".txt","",file_names[i])
 	dat[[name]] <- read.table(file_names[i],header=F,sep="\t")
@@ -72,6 +72,7 @@ co_res <- co_res[!co_res[,2] %in% names(which(table(co_res[,2]) > 50)),]
 colnames(co_res) <- c("chr","sperm","left_bin_id","right_bin_id")
 
 write.table(co_res,"co_final.txt",row.names=F,col.names=F,quote=F,sep="\t")
+
 
 
 
