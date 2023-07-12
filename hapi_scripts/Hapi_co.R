@@ -10,7 +10,7 @@ hapdat <- read.table(input,header=T, colClasses = c ("character"))
 hapdat <- hapdat[hapdat$confidence != "L" & hapdat$rate > 0.8,]
 
 hap <- hapdat[,c("hap1","hap2")]
-gmt <- hapdat[,grepl("[(J,DASZ)]",colnames(hapdat))]
+gmt <- hapdat[,!colnames(hapdat) %in% c("chr", "pos", "ref", "alt", "hap1", "hap2", "total", "rate", "confidence")]
 
 cvOutput <- hapiIdentifyCV(hap = hap, gmt = gmt)
 
