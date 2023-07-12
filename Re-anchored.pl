@@ -4,7 +4,7 @@ use strict;
 
 my ($linkage_dir,$binmap) = (@ARGV)[0,1];
 #my $binmap = "merged_binmap.txt";
-my $Usage = "\n\t$0 <linkage group dir> <binmap.txt>
+my $Usage = "\n\t$0 <linkage group dir> <merged_binmap>
 \n";
 die $Usage unless (@ARGV == 2);
 
@@ -17,18 +17,6 @@ while (<BIN>) {
 	$bins{$mid} = "$chr\t$s\t$e";	
 }
 close BIN;
-
-my $contig;
-open AGP,'<',"$agp" or die;
-while (<AGP>) {
-	chomp;
-	if (/\A#/) { next };
-	my ($chr,$s,$e,$id) = (split)[0,1,2,5];
-	if ($id =~ /Contig\d+/) {
-		push @{$contig->{$chr}}, "$id\t$s\t$e";
-	}
-}
-close AGP;
 
 ## merge continues bins ##
 my @file = glob "$linkage_dir/*.txt";
@@ -70,9 +58,10 @@ foreach (@file) {
 			my $bin_id = $tmp[0];
 			my ($chr,$s,$e) = (split /\t/,$bins{$bin_id});
 			my $len = $e - $s + 1;
-			my $format_s = $pre_end + 500;
-			my $format_e = $pre_end + 500 + $len;
+			my $format_s = $pre_end;
+			my $format_e = $pre_end + $len;
 			push @assembly,"$bin_id\t$format_s\t$format_e\t+";
+			$format_e += 500;
 			$pre_end = $format_e;
 			next;
 		}
@@ -88,20 +77,22 @@ foreach (@file) {
 				my ($chr,$s,$e) = (split /\t/,$bins{$_});
 				my $len = $e - $s + 1;
 				if ($fir1 == 0) {
-					my $format_s = $pre_end + 500;
-					my $format_e = $pre_end + 500 + $len;
+					my $format_s = $pre_end;
+					my $format_e = $pre_end + $len;
 					push @assembly,"$_\t$format_s\t$format_e\t+";
 					$pre_end = $format_e;
 					$pree = $e;
 					$fir1 = 1;
 				}else{
-					my $format_s = $pre_end + ($s - $pree + 1);
-					my $format_e = $format_s + $len;
+					my $format_s = $pre_end + ($s - $pree);
+					my $format_e = $format_s -1 + $len;
 					push @assembly,"$_\t$format_s\t$format_e\t+";
 					$pre_end = $format_e;
 					$pree = $e;
 				}
 			}
+			
+			$pre_end += 500;
 			
 		}else{
 		
@@ -111,20 +102,22 @@ foreach (@file) {
 				my ($chr,$s,$e) = (split /\t/,$bins{$_});
 				my $len = $e - $s + 1;
 				if ($fir1 == 0) {
-					my $format_s = $pre_end + 500;
-					my $format_e = $pre_end + 500 + $len;
+					my $format_s = $pre_end;
+					my $format_e = $pre_end + $len;
 					push @assembly,"$_\t$format_s\t$format_e\t-";
 					$pre_end = $format_e;
 					$pres = $s;
 					$fir1 = 1;
 				}else{
-					my $format_s = $pre_end + ($pres - $e + 1);
-					my $format_e = $format_s + $len;
+					my $format_s = $pre_end + ($pres - $e);
+					my $format_e = $format_s -1 + $len;
 					push @assembly,"$_\t$format_s\t$format_e\t-";
 					$pre_end = $format_e;
 					$pres = $s;
 				}
 			}
+			
+			$pre_end += 500;
 			
 		}
 	}
@@ -165,12 +158,4 @@ sub overlap {
 		return(0)
 	}
 }
-
-
-
-
-
-
-
-
 
