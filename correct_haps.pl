@@ -53,6 +53,7 @@ foreach (@hapfile) {
 		if (/\Achr/) { next };
 		my ($chr,$pos,$hap1,$hap2,$rate,$frame) = (split)[1,2,-5,-4,-2,-1];
 		if ($rate <= 0.8 || $frame eq 'L') { next };
+  		if (!exists $binmap->{$chr}) { next };
 		my @tmp = @{$binmap->{$chr}};
 		foreach (@tmp) {
 			my ($id,$s,$e) = split;
